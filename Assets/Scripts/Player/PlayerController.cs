@@ -60,7 +60,7 @@ namespace sluggagames.jumper
                 gameObject.transform.forward = move;
             }
 
-            print(isGrounded);
+
             if (Input.GetButton("Jump") && isGrounded)
             {
                 animController.ResetTrigger("jumpAttack");

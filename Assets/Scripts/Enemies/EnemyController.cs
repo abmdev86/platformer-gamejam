@@ -8,6 +8,8 @@ using UnityEngine.AI;
 namespace sluggagames.jumper.Enemies
 {
     [RequireComponent(typeof(NavMeshAgent))]
+
+
     public class EnemyController : MonoBehaviour
     {
         [SerializeField]
@@ -20,10 +22,12 @@ namespace sluggagames.jumper.Enemies
         private int enemyDefense;
         private float enemySpeed;
         private NavMeshAgent enemyAgent;
+        private EnemyVisibility vision;
+        private Transform playerTransform;
 
         private Animator enemyAnimController;
 
-
+        private bool isPlayerVisible = false;
 
 
         private void Start()
@@ -31,6 +35,7 @@ namespace sluggagames.jumper.Enemies
 
             try
             {
+                vision = GetComponentInChildren<EnemyVisibility>();
                 InitiateActor(actorData);
                 enemyAgent = GetComponent<NavMeshAgent>();
                 SetUpNavMeshAgent(enemyAgent, enemySpeed);
@@ -38,8 +43,8 @@ namespace sluggagames.jumper.Enemies
 
 
                 enemyAnimController = GetComponentInChildren<Animator>();
-                transform.forward = new Vector3(1, 0, 0);
-
+                transform.forward = enemyAgent.velocity.normalized;
+                playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
             }
             catch (UnityException ex)
@@ -51,15 +56,34 @@ namespace sluggagames.jumper.Enemies
         }
         private void Update()
         {
+            isPlayerVisible = vision.CheckVisibilityOriginal();
+            print($"Target visible? {isPlayerVisible}");
+            if (!isPlayerVisible)
+            {
+                EnemyMover();
+
+            }
+            else
+            {
+
+                print("I see player and should attack!" + isPlayerVisible);
+            }
+
+        }
+
+        private void EnemyMover()
+        {
+
             if (!enemyAgent.hasPath)
             {
-                enemyAgent.SetDestination(GetRandomPoint.Instance.GetPoint());
+                enemyAgent.SetDestination(GetRandomPoint.Instance.GetPoint(transform, radius));
+
             }
             else if (enemyAgent.velocity == Vector3.zero)
             {
                 enemyAgent.ResetPath();
             }
-            print(enemyAgent.hasPath + " has path");
+            transform.forward = enemyAgent.velocity;
 
         }
 
@@ -72,9 +96,6 @@ namespace sluggagames.jumper.Enemies
             enemySpeed = actor.ActorSpeed;
             enemyDefense = actor.Defense;
             enemyAttackPower = actor.AttackPower;
-
-
-
         }
 
         private void SetUpNavMeshAgent(NavMeshAgent agent, float speed, float angularSpeedModifier = 10f)

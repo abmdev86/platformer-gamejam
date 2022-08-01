@@ -32,7 +32,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: move
     m_Mirror: 0
-  m_BlendParameter: move
+  m_BlendParameter: walk
   m_BlendParameterY: Blend
   m_MinThreshold: 0
   m_MaxThreshold: 1
@@ -48,7 +48,7 @@ AnimatorController:
   m_Name: EnemyAnimationController_Fighter
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: move
+  - m_Name: walk
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
