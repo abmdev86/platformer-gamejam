@@ -26,7 +26,7 @@ SpaceBar
 
 
  # Characters 👨
- ## Fighter 🧑‍🚒
+ ## Fighter 🤜
  *Skill 1* - **Float** - Knock Enemies into the air <br>
 *Skill 2* - **Slow** - Hit enemies and make them move slower <br>
 *Skill 3* - **Stun** - Stun your enemeies.
