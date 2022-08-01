@@ -57,7 +57,7 @@ namespace sluggagames.jumper.Enemies
         private void Update()
         {
             isPlayerVisible = vision.CheckVisibilityOriginal();
-            print($"Target visible? {isPlayerVisible}");
+
             if (!isPlayerVisible)
             {
                 EnemyMover();
